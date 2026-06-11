@@ -12,11 +12,23 @@ from src.traders.domain.entities.ship_purchase_ship_nav import ShipPurchaseShipN
 from src.traders.domain.entities.ship_refuel import ShipRefuel
 from src.traders.domain.entities.ships_available import ShipsAvailable
 from src.traders.domain.entities.shipyard import Shipyard
+from src.traders.domain.entities.system import System
 from src.traders.domain.entities.to_asteroid_navigate import ToAsteroidNavigate
 from src.traders.domain.interfaces import TradersService
 
 
 class SpaceTradersService(TradersService):
+
+    def list_systems(self) -> list[System]:
+        datos= self._get_endpoint_response(
+                endpoint=f"systems",
+                headers=ACCOUNT_HEADERS,
+            )
+
+        return System.from_list(
+            data_list= datos
+        )
+
     def get_ships(self) -> list[ShipPurchaseShip]:
         return ShipPurchaseShip.from_list(
             data=self._get_endpoint_response(
@@ -171,10 +183,13 @@ if __name__ == "__main__":
     from src.traders.domain.entities.ships_available import ShipsAvailable
 
     space = SpaceTradersService()
-    ships = space.get_ships()
-    contracts = space.get_contracts()
-    if not contracts:
-        raise ValueError("No hay contratos")
+    # ships = space.get_ships()
+    # contracts = space.get_contracts()
+    # if not contracts:
+    #     raise ValueError("No hay contratos")
+
+    sistemas= space.list_systems()
+    pprint(sistemas)
     # account = space.get_account()
     #asteroids=space.find_engineered_asteroids(contracts[0].terms.deliver[0].system_symbol)
     #shipyards_infos = space.find_shipyards(system_symbol=contracts[0].terms.deliver[0].system_symbol)
@@ -190,4 +205,4 @@ if __name__ == "__main__":
     #cargo = space.view_cargo("GREEN-1")
     #jettison=space.jettison_ore("GREEN-1", "SILICON_CRYSTALS", 3)
 
-    pprint(contracts)
+    #pprint(contracts)
