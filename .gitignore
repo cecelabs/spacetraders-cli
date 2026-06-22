@@ -11,3 +11,6 @@ wheels/
 .env*
 .idea/
 borrame.py
+
+NOTES.md
+docs
