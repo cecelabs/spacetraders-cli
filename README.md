@@ -90,6 +90,6 @@ python main.py
 - **Estilos**: Los estilos visuales de la interfaz se definen en `styles.tcss`.
 
 # FRONTEND
-- cd ../frontend
+- cd ..spacetraders-cli/frontend
 - uv run reflex run
 
