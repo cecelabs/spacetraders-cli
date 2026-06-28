@@ -321,7 +321,7 @@ def sidebar_item(icon_tag: str, label: str, href: str, active: bool = False) -> 
     )
 
 
-def sidebar() -> rx.Component:
+def sidebar(active_page: str = "shipyard") -> rx.Component:
     return rx.vstack(
         rx.hstack(
             rx.box(
@@ -343,10 +343,10 @@ def sidebar() -> rx.Component:
         
         rx.vstack(
             rx.text("NAVIGATION", color="#475569", font_size="0.7em", font_weight="bold", letter_spacing="0.1em", margin_bottom="0.5em"),
-            sidebar_item("layout-dashboard", "Dashboard", href="/", active=False),
-            sidebar_item("rocket", "Fleet Command", href="/cards", active=False),
-            sidebar_item("warehouse", "Shipyard", href="/shipyard", active=True),
-            sidebar_item("file-text", "Contract Ledger", href="#", active=False),
+            sidebar_item("layout-dashboard", "Dashboard", href="/", active=(active_page == "dashboard")),
+            sidebar_item("rocket", "Fleet Command", href="/fleet", active=(active_page == "fleet")),
+            sidebar_item("warehouse", "Shipyard", href="/shipyard", active=(active_page == "shipyard")),
+            sidebar_item("file-text", "Contract Ledger", href="/contracts", active=(active_page == "contracts")),
             align_items="stretch",
             spacing="1",
             width="100%",
@@ -394,6 +394,14 @@ def sidebar() -> rx.Component:
         align_items="stretch",
     )
 
+def grid_element(icon_text:str, texto:str )-> rx.Component:
+
+    return rx.hstack(
+                    rx.icon(icon_text, color="#00d2ff", size=14),
+                    rx.text(texto, color="#f8fafc", font_size="0.8em"),
+                    align_items="center",
+                    spacing="2",
+                )
 
 def ship_card(ship: dict) -> rx.Component:
     return rx.card(
@@ -432,30 +440,10 @@ def ship_card(ship: dict) -> rx.Component:
             ),
             
             rx.grid(
-                rx.hstack(
-                    rx.icon("zap", color="#00d2ff", size=14),
-                    rx.text(f"Speed {ship['speed']}", color="#f8fafc", font_size="0.8em"),
-                    align_items="center",
-                    spacing="2",
-                ),
-                rx.hstack(
-                    rx.icon("package", color="#00d2ff", size=14),
-                    rx.text(f"Cargo {ship['cargo']}", color="#f8fafc", font_size="0.8em"),
-                    align_items="center",
-                    spacing="2",
-                ),
-                rx.hstack(
-                    rx.icon("circle", color="#00d2ff", size=14),
-                    rx.text(f"Fuel {ship['fuel']}", color="#f8fafc", font_size="0.8em"),
-                    align_items="center",
-                    spacing="2",
-                ),
-                rx.hstack(
-                    rx.icon("cpu", color="#00d2ff", size=14),
-                    rx.text(f"Modules {ship['modules']}", color="#f8fafc", font_size="0.8em"),
-                    align_items="center",
-                    spacing="2",
-                ),
+                grid_element(icon_text="zap", texto=f"Speed {ship['speed']}"),
+                grid_element(icon_text="package",texto=f"Cargo {ship['cargo']}"),
+                grid_element(icon_text="circle", texto=f"Fuel {ship['fuel']}"),
+                grid_element(icon_text="cpu", texto=f"Modules {ship['modules']}"),
                 columns="2",
                 spacing="3",
                 width="100%",
@@ -607,8 +595,304 @@ def shipyard_view() -> rx.Component:
 
 
 
+def dashboard_view() -> rx.Component:
+    return rx.flex(
+        sidebar("dashboard"),
+        
+        rx.box(
+            rx.hstack(
+                rx.hstack(
+                    rx.icon("layout-dashboard"),
+                    rx.text("Dashboard"),
+                ),
+                rx.spacer(),
+                rx.hstack(
+                    rx.text("SECTOR:"),
+                    rx.text("X1-ANDROMEDA"),
+                    rx.text("3066.187"),
+                ),
+                width="100%",
+            ),
+            
+            rx.vstack(
+                rx.text("STELLAR DATE: 3066.187"),
+                rx.heading("Command Overview"),
+                rx.text("Empire status — Faction: Cosmic Syndicate · HQ: X1-ANDROMEDA-7"),
+                align_items="start",
+            ),
+            
+            rx.grid(
+                rx.box(
+                    rx.text("TOTAL CREDITS"),
+                    rx.text("1,240,500 CR"),
+                    rx.text("+14.2"),
+                ),
+                rx.box(
+                    rx.text("ACTIVE SHIPS"),
+                    rx.text("5 vessels"),
+                ),
+                rx.box(
+                    rx.text("PENDING CONTRACTS"),
+                    rx.text("3 missions"),
+                    rx.text("-1"),
+                ),
+                rx.box(
+                    rx.text("SYSTEMS CHARTED"),
+                    rx.text("12 sectors"),
+                    rx.text("+2"),
+                ),
+                columns="4",
+                spacing="4",
+                width="100%",
+            ),
+            
+            rx.grid(
+                rx.box(
+                    rx.text("CREDIT FLOW – 24H"),
+                    rx.text("+14.2%"),
+                    rx.box(
+                        rx.text("[Chart Placeholder: Credit Flow 24h Line Chart]"),
+                        height="200px",
+                    ),
+                ),
+                rx.box(
+                    rx.text("AGENT PROFILE"),
+                    rx.box(rx.text("CS")),  # Avatar box
+                    rx.text("COMMANDER_7"),
+                    rx.text("Cosmic Syndicate · Rank 4"),
+                    rx.vstack(
+                        rx.text("Ship Tokens: 5 / 10"),
+                        rx.text("Starting Credits: 100,000 CR"),
+                        rx.text("HQ Waypoint: X1-ANDROMEDA-7"),
+                        align_items="start",
+                    ),
+                    rx.hstack(
+                        rx.text("ONLINE · All systems nominal"),
+                    ),
+                ),
+                columns="2",
+                spacing="4",
+                width="100%",
+            ),
+            
+            flex="1",
+            padding="2em 3em",
+            overflow_y="auto",
+            height="100vh",
+        ),
+        
+        width="100%",
+        min_height="100vh",
+        direction="row",
+    )
+
+
+def fleet_view() -> rx.Component:
+    return rx.flex(
+        sidebar("fleet"),
+        
+        rx.box(
+            rx.hstack(
+                rx.hstack(
+                    rx.icon("rocket"),
+                    rx.text("Fleet Command"),
+                ),
+                rx.spacer(),
+                rx.hstack(
+                    rx.text("SECTOR:"),
+                    rx.text("X1-ANDROMEDA"),
+                    rx.text("3066.187"),
+                ),
+                width="100%",
+            ),
+            
+            rx.vstack(
+                rx.text("MODULE: FLEET COMMAND"),
+                rx.heading("Fleet Management"),
+                rx.text("5 vessels registered · 2 in transit"),
+                align_items="start",
+            ),
+            
+            rx.hstack(
+                rx.button("ALL (5)"),
+                rx.button("DOCKED"),
+                rx.button("ORBITING"),
+                rx.button("IN TRANSIT"),
+            ),
+            
+            rx.vstack(
+                rx.box(
+                    rx.hstack(
+                        rx.icon("rocket"),
+                        rx.vstack(
+                            rx.text("HORIZON-X1"),
+                            rx.text("COMMAND • X1-ANDROMEDA-7"),
+                        ),
+                        rx.spacer(),
+                        rx.text("Docked"),
+                    ),
+                    rx.vstack(
+                        rx.text("Fuel"),
+                        rx.progress(value=100),
+                        rx.text("1200/1200"),
+                        align_items="start",
+                    ),
+                    rx.vstack(
+                        rx.text("Cargo"),
+                        rx.progress(value=56),
+                        rx.text("45/80"),
+                        align_items="start",
+                    ),
+                    rx.hstack(
+                        rx.button("Dock/Orbit"),
+                        rx.button("Refuel"),
+                        rx.button("Extract"),
+                    ),
+                ),
+                
+                rx.box(
+                    rx.hstack(
+                        rx.icon("rocket"),
+                        rx.vstack(
+                            rx.text("VEGA-II"),
+                            rx.text("HAULER • KRONOS-IV"),
+                        ),
+                        rx.spacer(),
+                        rx.text("In Transit"),
+                    ),
+                    rx.text("→ OMICRON-VII"),
+                    rx.vstack(
+                        rx.text("Fuel"),
+                        rx.progress(value=67),
+                        rx.text("540/800"),
+                        align_items="start",
+                    ),
+                    rx.vstack(
+                        rx.text("Cargo"),
+                        rx.progress(value=83),
+                        rx.text("200/240"),
+                        align_items="start",
+                    ),
+                    rx.hstack(
+                        rx.button("Dock/Orbit"),
+                        rx.button("Refuel"),
+                        rx.button("Extract"),
+                    ),
+                ),
+                width="100%",
+                spacing="4",
+            ),
+            
+            flex="1",
+            padding="2em 3em",
+            overflow_y="auto",
+            height="100vh",
+        ),
+        
+        width="100%",
+        min_height="100vh",
+        direction="row",
+    )
+
+
+def contracts_view() -> rx.Component:
+    return rx.flex(
+        sidebar("contracts"),
+        
+        rx.box(
+            rx.hstack(
+                rx.hstack(
+                    rx.icon("file-text"),
+                    rx.text("Contract Ledger"),
+                ),
+                rx.spacer(),
+                rx.hstack(
+                    rx.text("SECTOR:"),
+                    rx.text("X1-ANDROMEDA"),
+                    rx.text("3066.187"),
+                ),
+                width="100%",
+            ),
+            
+            rx.vstack(
+                rx.text("MODULE: CONTRACT LEDGER"),
+                rx.heading("Mission Contracts"),
+                rx.text("1 active · 2 available · 1 completed"),
+                align_items="start",
+            ),
+            
+            rx.grid(
+                rx.box(
+                    rx.text("342,000 CR"),
+                    rx.text("Total Earned"),
+                ),
+                rx.box(
+                    rx.text("47,000 CR"),
+                    rx.text("Active Value"),
+                ),
+                rx.box(
+                    rx.text("71%"),
+                    rx.text("Completion Rate"),
+                ),
+                columns="3",
+                spacing="4",
+                width="100%",
+            ),
+            
+            rx.hstack(
+                rx.button("ALL (5)"),
+                rx.button("AVAILABLE (2)"),
+                rx.button("ACTIVE (1)"),
+                rx.button("COMPLETED (1)"),
+                rx.button("FAILED (1)"),
+            ),
+            
+            rx.box(
+                rx.hstack(
+                    rx.text("#TRAD-447"),
+                    rx.text("PROCUREMENT"),
+                    rx.spacer(),
+                    rx.text("Active"),
+                ),
+                rx.text("Cosmic Syndicate"),
+                rx.text("Deliver 20 units of refined Fuel to Andromeda Station to resupply long-haul freighters."),
+                rx.hstack(
+                    rx.text("20x Fuel"),
+                    rx.text("X1-ANDROMEDA-7"),
+                    rx.text("47,000 CR"),
+                ),
+                rx.vstack(
+                    rx.text("Delivery Progress"),
+                    rx.progress(value=50),
+                    rx.text("10 / 20"),
+                    align_items="start",
+                ),
+                rx.hstack(
+                    rx.text("On Accept: +5,000 CR"),
+                    rx.text("On Fulfill: +42,000 CR"),
+                    rx.text("16h 0m remaining"),
+                    rx.spacer(),
+                    rx.button("Deliver"),
+                ),
+            ),
+            
+            flex="1",
+            padding="2em 3em",
+            overflow_y="auto",
+            height="100vh",
+        ),
+        
+        width="100%",
+        min_height="100vh",
+        direction="row",
+    )
+
+
 app = rx.App()
-app.add_page(index, route="/")
-app.add_page(cards_view, route="/cards")
+app.add_page(dashboard_view, route="/")
+app.add_page(fleet_view, route="/fleet")
 app.add_page(shipyard_view, route="/shipyard")
+app.add_page(contracts_view, route="/contracts")
+app.add_page(index, route="/demo")
+app.add_page(cards_view, route="/cards")
 
