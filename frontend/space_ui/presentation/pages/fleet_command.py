@@ -4,27 +4,28 @@ from space_ui.components.cards.fleet_card import fleet_card
 from space_ui.presentation.sidebar import sidebar
 
 fleets_data = [
-{
-    "icon": "rocket",
-    "name": "HORIZON-X1",
-    "location": "COMMAND • X1-ANDROMEDA-7",
-    "status": "Docked",
-    "fuel_value": 100,
-    "fuel_text": "1200/1200",
-    "cargo_value": 56,
-    "cargo_text": "45/80",
-},
-{
-    "icon": "rocket",
-    "name": "VEGA-II",
-    "location": "HAULER • KRONOS-IV",
-    "status": "In Transit",
-    "fuel_value": 67,
-    "fuel_text": "540/800",
-    "cargo_value": 83,
-    "cargo_text": "200/240",
-}
+    {
+        "icon": "rocket",
+        "name": "HORIZON-X1",
+        "location": "COMMAND • X1-ANDROMEDA-7",
+        "status": "Docked",
+        "fuel_value": 100,
+        "fuel_text": "1200/1200",
+        "cargo_value": 56,
+        "cargo_text": "45/80",
+    },
+    {
+        "icon": "rocket",
+        "name": "VEGA-II",
+        "location": "HAULER • KRONOS-IV",
+        "status": "In Transit",
+        "fuel_value": 67,
+        "fuel_text": "540/800",
+        "cargo_value": 83,
+        "cargo_text": "200/240",
+    }
 ]
+
 
 def fleet_view() -> rx.Component:
     return rx.flex(
@@ -58,12 +59,13 @@ def fleet_view() -> rx.Component:
                 rx.button("ORBITING"),
                 rx.button("IN TRANSIT"),
             ),
+            rx.divider(margin="16px"),
 
-            rx.vstack(
+            rx.flex(
                 fleet_card(fleets_data[0]),
                 fleet_card(fleets_data[1]),
+                spacing="2",
                 width="100%",
-                spacing="4",
             ),
 
             flex="1",

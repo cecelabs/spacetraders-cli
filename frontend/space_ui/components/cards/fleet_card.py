@@ -2,7 +2,7 @@ import reflex as rx
 
 
 def fleet_card(fleet_data: dict) -> rx.Component:
-    return rx.box(
+    return rx.card(
         rx.hstack(
             rx.icon(fleet_data["icon"]),
             rx.vstack(
