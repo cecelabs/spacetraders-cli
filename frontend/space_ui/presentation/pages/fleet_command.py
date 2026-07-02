@@ -53,11 +53,14 @@ def fleet_view() -> rx.Component:
                 align_items="start",
             ),
 
-            rx.hstack(
-                rx.button("ALL (5)"),
-                rx.button("DOCKED"),
-                rx.button("ORBITING"),
-                rx.button("IN TRANSIT"),
+            rx.tabs.root(
+                rx.tabs.list(
+                    rx.tabs.trigger("ALL (5)", value="all"),
+                    rx.tabs.trigger("DOCKED", value="available"),
+                    rx.tabs.trigger("ORBITING", value="active"),
+                    rx.tabs.trigger("IN TRANSIT", value="completed"),
+                ),
+                default_value="all",
             ),
             rx.divider(margin="16px"),
 
