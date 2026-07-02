@@ -1,28 +1,10 @@
 import reflex as rx
 
 from space_ui.components.cards.contract_card import contract_card
+from space_ui.infraestructure.services.custom_trader import CustomTraderService
 from space_ui.presentation.sidebar import sidebar
 
-contracts_data = [
-    {
-        "id": "#TRAD-447",
-        "type": "PROCUREMENT",
-        "status": "Active",
-        "organitation": "Cosmic Syndicate",
-        "order": "Deliver 20 units of refined Fuel to Andromeda Station to resupply long-haul freighters.",
-
-        "fuel": "20x Fuel",
-        "location": "X1-ANDROMEDA-7",
-        "credits": "47,000 CR",
-        "status_order": "Delivery Progress",
-        "status_order_num": 50,
-        "items": "10 / 20",
-
-        "on_accept": "On Accept: +5,000 CR",
-        "on_fulfill": "On Fulfill: +42,000 CR",
-        "time_left": "16h 0m remaining"
-    },
-]
+contracts_data = CustomTraderService().list_contracts()
 
 
 def contracts_view() -> rx.Component:
