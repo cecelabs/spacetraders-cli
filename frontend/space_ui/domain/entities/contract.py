@@ -13,8 +13,8 @@ class Contract(BaseModel):
     on_fulfill: str | None = None
     credits: str | None = None
     status_order: str | None = None
-    status_order_num: int | None = None
-    items: str | None = None
+    status_order_num: int = 0
+    items_data: str | None = None
     order: str | None = None
 
     @classmethod

@@ -1,10 +1,8 @@
 import reflex as rx
 
 from space_ui.components.cards.contract_card import contract_card
-from space_ui.infraestructure.services.custom_trader import CustomTraderService
 from space_ui.presentation.sidebar import sidebar
-
-contracts_data = CustomTraderService().list_contracts()
+from space_ui.presentation.states.contracts import ContractsState
 
 
 def contracts_view() -> rx.Component:
@@ -63,7 +61,7 @@ def contracts_view() -> rx.Component:
             ),
 
             rx.flex(
-                contract_card(contracts_data[0]),
+                contract_card(ContractsState.contracts[0]),
             ),
 
             flex="1",

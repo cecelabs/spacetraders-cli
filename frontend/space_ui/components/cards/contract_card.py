@@ -28,7 +28,7 @@ def contract_card(contract_data: Contract) -> rx.Component:
             rx.vstack(
                 rx.text(contract_data.status_order),
                 rx.progress(value=contract_data.status_order_num),
-                rx.text(contract_data.items),
+                rx.text(contract_data.items_data),
                 width="100%"
             ),
 

@@ -4,6 +4,7 @@ from space_ui.presentation.pages.contract_ledger import contracts_view
 from space_ui.presentation.pages.dashboard import dashboard_view
 from space_ui.presentation.pages.fleet_command import fleet_view
 from space_ui.presentation.pages.shipyard import shipyard_view
+from space_ui.presentation.states.contracts import ContractState, ContractsState
 from src.traders.domain.entities.system import System
 from rxconfig import config
 
@@ -218,7 +219,7 @@ app = rx.App()
 app.add_page(dashboard_view, route="/")
 app.add_page(fleet_view, route="/fleet")
 app.add_page(shipyard_view, route="/shipyard")
-app.add_page(contracts_view, route="/contracts")
+app.add_page(contracts_view, route="/contracts", on_load=ContractsState.load_contracts)
 app.add_page(index, route="/demo")
 app.add_page(cards_view, route="/cards")
 
