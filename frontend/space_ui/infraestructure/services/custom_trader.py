@@ -1,6 +1,8 @@
 from space_ui.domain.entities.contract import Contract
 from space_ui.domain.interfaces import TradingService
-
+from src.traders.infraestructure.services.space_traders_service import SpaceTradersService
+from src.traders.domain.entities.contract import Contract as STContract
+space_traders=SpaceTradersService()
 
 class CustomTraderService(TradingService):
 
@@ -25,7 +27,21 @@ class CustomTraderService(TradingService):
                 "expiration": "16h 0m remaining"
             },
         ]
-        return Contract.from_list(contracts_data)
+        list_st_contracts: list[STContract]=space_traders.get_contracts()
+        list_contracts: list[Contract]=[]
+        for stcontract in list_st_contracts:
+            contract=Contract(
+                id=f"ID: {stcontract.id[:4]}",
+                type=stcontract.type,
+                status="Active" if stcontract.accepted else "Inactive",
+                location=stcontract.faction_symbol,
+                expiration=stcontract.expiration,
+                faction_symbol=stcontract.faction_symbol,
+                fuel="fuel revisa backend"
+            )
+            list_contracts.append(contract)
+        #return Contract.from_list(contracts_data)
+        return list_contracts
 
 
 if __name__ == "__main__":
